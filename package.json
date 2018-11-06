@@ -1,0 +1,35 @@
+{
+  "name": "moovie-api",
+  "version": "1.0.0",
+  "description": "Moovie is plataform where you can share what movies you want to watch or that ones that you already watched and make reviews for them",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./dist/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "moovie",
+    "node",
+    "express",
+    "api",
+    "mongoose",
+    "mongodb"
+  ],
+  "author": "Leandro Lima",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.3.9"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/body-parser": "^1.17.0",
+    "@types/express": "^4.16.0",
+    "@types/jsonwebtoken": "^8.3.0",
+    "@types/mongoose": "^5.3.1",
+    "typescript": "^3.1.6"
+  }
+}
