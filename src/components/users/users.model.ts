@@ -1,4 +1,6 @@
 import * as mongoose from 'mongoose'
+import * as bcrypt from 'bcrypt'
+import { environment } from '../../config/environment'
 
 export interface User extends mongoose.Document{
     name: string,
@@ -31,5 +33,34 @@ const userSchema = new mongoose.Schema({
         maxlength: 500
     }
 })
+
+const hashParser = (obj, next) => {
+    bcrypt.hash(obj.password, environment.security.salt_rounds)
+          .then(hash => {
+              obj.password = hash
+              next()
+          }).catch(next)
+}
+
+const saveMiddleware = function(next){
+    const user: User = this
+
+    if(!user.isDirectModified('password')){
+        next()
+    }else{
+        hashParser(this, next)
+    }
+}
+
+const updateMiddleware = function(next){
+    if(!this.getUpdate().password){
+        next()
+    }else{
+        hashParser(this.getUpdate(), next)
+    }
+}
+
+userSchema.pre('save', saveMiddleware)
+userSchema.pre('findOneAndUpdate', updateMiddleware)
 
 export const User = mongoose.model<User>('User', userSchema)
