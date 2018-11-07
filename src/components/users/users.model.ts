@@ -60,7 +60,12 @@ const updateMiddleware = function(next){
     }
 }
 
+const hidePasswordMiddleware = function(doc){
+    doc.password = undefined
+}
+
 userSchema.pre('save', saveMiddleware)
+userSchema.post('save', hidePasswordMiddleware)
 userSchema.pre('findOneAndUpdate', updateMiddleware)
 
 export const User = mongoose.model<User>('User', userSchema)

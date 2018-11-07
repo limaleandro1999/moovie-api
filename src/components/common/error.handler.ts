@@ -1,6 +1,6 @@
 import * as express from 'express'
 
-export const errorHandler = (res: express.Response, err) => {
+export const errorHandler = (err) => {
     err.toJSON = () => {
         return{
             message: err.message

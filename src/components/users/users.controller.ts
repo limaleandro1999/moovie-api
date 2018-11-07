@@ -1,73 +1,64 @@
 import * as express from 'express'
+import * as mongoose from 'mongoose'
 import { User } from './users.model'
 import { errorHandler } from '../common/error.handler'
-import * as mongoose from 'mongoose';
+
 
 class UserController {
-    getAllUsers = (res: express.Response) => {
-        User.find()
-            .then(users => {
-                res.status(200).json(users)
-            }).catch(err => {
-                res.status(500).json({message: 'Sorry, we had a problem.'})
-            })
+    getAllUsers = async (req: express.Request, res: express.Response) => {
+        let users = await User.find().catch(error => {
+            return res.status(500).json({message: 'Sorry, we had a problem.'})
+        })
+        
+        return res.status(200).json(users)
     }
 
-    getUser = (id, res: express.Response) => {
-        if(mongoose.Types.ObjectId.isValid(id)){
-            User.findById(id)
-                .then(user => {
-                    res.status(200).json(user)
-                }).catch(err => {
-                    res.status(500).json({message: 'Sorry, we had a problem.'})
-                })
+    getUser = async (req: express.Request, res: express.Response) => {
+        if(mongoose.Types.ObjectId.isValid(req.params.id)){
+            let user = await User.findById(req.params.id).catch(error => {
+                return res.status(500).json({message: 'Sorry, we had a problem.'})
+            })
+
+            return res.status(200).json(user)
         }else{
-            res.status(404).json({message: 'Document not found'})
+            return res.status(404).json({message: 'Document not found'})
         }
     }
 
-    saveUser = (req: express.Request, res: express.Response) => {
-        let user = new User(req.body)
-        
-        user.save()
-            .then(user => {
-                user.password = undefined
-                res.status(200).json(user)
-            }).catch(error => {
-                errorHandler(res, error)
-                res.status(error.statusCode).json(error)
-            })
+    saveUser = async (req: express.Request, res: express.Response) => {
+        let user = await User.create(req.body).catch(error => {
+            errorHandler(error)
+            return res.status(error.statusCode).json(error)
+        })
+
+        return res.send(user)
     }
 
-    replaceUser = (req: express.Request, res: express.Response) => {
+    replaceUser = async (req: express.Request, res: express.Response) => {
         const options = {runValidators: true, overwrite: true}
 
         if(mongoose.Types.ObjectId.isValid(req.params.id)){
-            User.findOneAndUpdate({_id: req.params.id}, req.body, options)
-                .then(result => {
-                    res.status(200).json(result)
-                }).catch(error => {
-                    console.log(error)
-                    errorHandler(res, error)
-                    res.status(error.statusCode).json(error)
-                })
+            let user = await User.findOneAndUpdate({_id: req.params.id}, req.body, options).catch(error => {
+                errorHandler(error)
+                return res.status(error.statusCode).json(error) 
+            })
+
+            return res.status(200).json(user)
         }else{
             res.status(404).json({message: 'Document not found'}) 
         }
     }
 
-    updateUser = (req: express.Request, res: express.Response) => {
+    updateUser = async (req: express.Request, res: express.Response) => {
         const options = {runValidators: true, new: true}
 
         if(mongoose.Types.ObjectId.isValid(req.params.id)){
-            User.findOneAndUpdate({_id: req.params.id}, req.body, options)
-                .then(result => {
-                    res.status(200).json(result)
-                }).catch(error => {
-                    console.log(error)
-                    errorHandler(res, error)
-                    res.status(error.statusCode).json(error)
-                })
+            let user = await User.findOneAndUpdate({_id: req.params.id}, req.body, options).catch(error => {
+                errorHandler(error)
+                return res.status(error.statusCode).json(error) 
+            })
+
+            return res.status(200).json(user)
         }else{
             res.status(404).json({message: 'Document not found'}) 
         }
