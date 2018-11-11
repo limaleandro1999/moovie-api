@@ -23,13 +23,19 @@ const requestData = (url) => {
 export const getMovieByTitle = async (title: string) => {
     title.replace(' ', '_')
     const movie = await requestData(`http://www.omdbapi.com/?t=${title}&apikey=${environment.security.apikey}`)
-    console.log(movie)
+    
     return movie
 }
 
-export const getMoviesBySearch = async (search) => {
+export const getMoviesBySearch = async (search: any) => {
     search.replace(' ', '_')
     const movies = await requestData(`http://www.omdbapi.com/?s=${search}&apikey=${environment.security.apikey}`)
 
+    return movies
+}
+
+export const getMoviesByPage = async (page: number) => {
+    const movies = await requestData(`http://www.omdbapi.com/?page=${page}&apikey=${environment.security.apikey}`)
+    
     return movies
 }

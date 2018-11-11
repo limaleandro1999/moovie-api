@@ -19,6 +19,20 @@ class MovieController{
             next()
         }
     }
+
+    getMoviesByPage = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        if(req.query.page){
+            let movies = await omdbConsumer.getMoviesByPage(req.query.page)
+            return res.status(200).json(movies)
+        }else{
+            next()
+        }
+    }
+
+    getMovies = async (req: express.Request, res: express.Response) => {
+        let movies = await omdbConsumer.getMoviesByPage(1)
+        return res.status(200).json(movies)
+    }
 }
 
 export const movieController = new MovieController()
