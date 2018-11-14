@@ -27,6 +27,12 @@ export const getMovieByTitle = async (title: string) => {
     return movie
 }
 
+export const getMovieById = async (id: string) => {
+    const movie = await requestData(`http://www.omdbapi.com/?i=${id}&apikey=${environment.security.apikey}`)
+    
+    return movie
+}
+
 export const getMoviesBySearch = async (search: any) => {
     search.replace(' ', '_')
     const movies = await requestData(`http://www.omdbapi.com/?s=${search}&apikey=${environment.security.apikey}`)
