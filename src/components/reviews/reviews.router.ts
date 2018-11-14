@@ -10,5 +10,8 @@ router.get('/', [
 ])
 router.get('/:id', reviewController.getReviewById)
 router.post('/', reviewController.saveReviews)
+router.patch('/:id', reviewController.updateReview)
+router.put('/:id', reviewController.replaceReview)
+router.delete('/:id', reviewController.deleteReview)
 
 export const reviewRouter = router

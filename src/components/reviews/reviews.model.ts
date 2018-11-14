@@ -9,6 +9,11 @@ export interface Review extends mongoose.Document{
     movie: string  //The omdb API return the movie id as a string
 }
 
+export interface ReviewModel extends mongoose.Model<Review>{
+    findByUserId(userId: mongoose.Schema.Types.ObjectId): Promise<Review>
+    findByMovieId(movieId: string): Promise<Review>
+}
+
 const reviewSchema = new mongoose.Schema({
     comment: {
         type: String,
@@ -31,14 +36,13 @@ const reviewSchema = new mongoose.Schema({
     }
 })
 
-const showMovieAndUseMiddleware = async function (reviews){  
-    for(let i = 0; i < reviews.length; i++){
-        reviews[i].user = await User.findById(reviews[i].user)
-        reviews[i].movie = JSON.stringify(await omdbConsumer.getMovieById(reviews[i].movie))
-    }
+reviewSchema.statics.findByUserId = function (userId: mongoose.Schema.Types.ObjectId){
+    return this.find({user: userId})
 }
 
-reviewSchema.post('find', showMovieAndUseMiddleware)
+reviewSchema.statics.findByMovieId = function (movieId: string){
+    return this.find({movie: movieId})
+}
 
-export const Review = mongoose.model<Review>('Review', reviewSchema)
+export const Review = mongoose.model<Review, ReviewModel>('Review', reviewSchema)
 

@@ -15,14 +15,17 @@ class UserController {
 
     getUser = async (req: express.Request, res: express.Response) => {
         if(mongoose.Types.ObjectId.isValid(req.params.id)){
-            let user = await User.findById(req.params.id).catch(error => {
+            let users = await User.findById(req.params.id).catch(error => {
                 return res.status(500).json({message: 'Sorry, we had a problem.'})
             })
 
-            return res.status(200).json(user)
-        }else{
-            return res.status(404).json({message: 'Document not found'})
+            if(users != null){
+                return res.status(200).json(users)
+            }
         }
+
+        return res.status(404).json({message: 'Document not found'})
+        
     }
 
     saveUser = async (req: express.Request, res: express.Response) => {
@@ -43,10 +46,12 @@ class UserController {
                 return res.status(error.statusCode).json(error) 
             })
 
-            return res.status(200).json(user)
-        }else{
-            res.status(404).json({message: 'Document not found'}) 
+            if(user != null){
+                return res.status(200).json(req.body)
+            }
         }
+        
+        return res.status(404).json({message: 'Document not found'}) 
     }
 
     updateUser = async (req: express.Request, res: express.Response) => {
@@ -58,10 +63,28 @@ class UserController {
                 return res.status(error.statusCode).json(error) 
             })
 
-            return res.status(200).json(user)
-        }else{
-            res.status(404).json({message: 'Document not found'}) 
+            if(user != null){
+                return res.status(200).json(user)
+            }
         }
+        
+        return res.status(404).json({message: 'Document not found'}) 
+    }
+
+    deleteUser = async (req: express.Request, res: express.Response) => {
+        if(mongoose.Types.ObjectId.isValid(req.params.id)){
+            await User.findByIdAndDelete(req.params.id)
+                .then((cmdResult: any) => {
+                    if(cmdResult){
+                        return res.status(204).json({message: 'User deleted'})
+                    }
+                }).catch(error => {
+                    errorHandler(error)
+                    return res.status(error.statusCode).json(error) 
+                })
+        }
+
+        return res.status(404).json({message: 'Document not found'})
     }
 }
 
