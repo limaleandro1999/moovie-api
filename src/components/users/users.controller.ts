@@ -28,6 +28,22 @@ class UserController {
         
     }
 
+    getUserByEmail = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        if(req.query.email){
+            let user = await User.findByEmail(req.query.email).catch(error => {
+                return res.status(500).json({message: 'Sorry, we had a problem.'})
+            })
+
+            if(user != null){
+                return res.status(200).json(user)
+            }else{
+                return res.status(404).json({message: 'Document not found'})
+            }
+        }else{
+            next()
+        }
+    }
+
     saveUser = async (req: express.Request, res: express.Response) => {
         let user = await User.create(req.body).catch(error => {
             errorHandler(error)

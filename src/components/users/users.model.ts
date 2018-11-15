@@ -9,6 +9,10 @@ export interface User extends mongoose.Document{
     bio: string
 }
 
+export interface UserModel extends mongoose.Model<User>{
+    findByEmail(email: string): Promise<User>
+}
+
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -33,6 +37,10 @@ const userSchema = new mongoose.Schema({
         maxlength: 500
     }
 })
+
+userSchema.statics.findByEmail = function(email: string) {
+    return this.findOne({email: email})
+}
 
 const hashParser = (obj, next) => {
     bcrypt.hash(obj.password, environment.security.salt_rounds)
@@ -68,4 +76,4 @@ userSchema.pre('save', saveMiddleware)
 userSchema.post('save', hidePasswordMiddleware)
 userSchema.pre('findOneAndUpdate', updateMiddleware)
 
-export const User = mongoose.model<User>('User', userSchema)
+export const User = mongoose.model<User, UserModel>('User', userSchema)

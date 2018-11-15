@@ -3,7 +3,7 @@ import {userController} from './users.controller'
 
 const router: express.Router = express.Router()
 
-router.get('/', userController.getAllUsers)
+router.get('/', [userController.getUserByEmail, userController.getAllUsers])
 router.get('/:id', userController.getUser)
 router.post('/', userController.saveUser)
 router.put('/:id', userController.replaceUser)
