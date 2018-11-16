@@ -2,10 +2,14 @@
   "name": "moovie-api",
   "version": "1.0.0",
   "description": "Moovie is plataform where you can share what movies you want to watch or that ones that you already watched and make reviews for them",
-  "main": "index.js",
+  "main": "dist/main.js",
   "scripts": {
-    "start": "nodemon ./dist/main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-ts": "tsc",
+    "postinstall": "npm run build-ts",
+    "start": "npm run server",
+    "server": "node dist/main.js",
+    "watch-node": "nodemon dist/main.js",
+    "watch-ts": "tsc -w"
   },
   "keywords": [
     "moovie",
@@ -37,5 +41,9 @@
     "install": "^0.12.2",
     "npm": "^6.4.1",
     "typescript": "^3.1.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/limaleandro1999/moovie-api"
   }
 }
