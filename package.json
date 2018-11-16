@@ -2,7 +2,6 @@
   "name": "moovie-api",
   "version": "1.0.0",
   "description": "Moovie is plataform where you can share what movies you want to watch or that ones that you already watched and make reviews for them",
-  "main": "dist/main.js",
   "scripts": {
     "build-ts": "tsc",
     "postinstall": "npm run build-ts",
