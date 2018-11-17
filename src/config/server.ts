@@ -13,7 +13,6 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(tokenParser)
 
-initializeDb();
 router(app)
 
 export = app
