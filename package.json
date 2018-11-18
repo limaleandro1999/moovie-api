@@ -8,7 +8,8 @@
     "start": "npm run server",
     "server": "node dist/main.js",
     "watch-node": "nodemon dist/main.js",
-    "watch-ts": "tsc -w"
+    "watch-ts": "tsc -w",
+    "test": "ts-node jest.startup.ts"
   },
   "keywords": [
     "moovie",
@@ -30,16 +31,43 @@
     "request": "^2.88.0",
     "request-promise": "^4.2.2"
   },
+  "jest": {
+    "globals": {
+      "address": "http://localhost:3001/api",
+      "auth": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE1MTYyMzkwMjJ9.HCtLeNy5-33THRqf03ayTWV0UiTNEuBgKzE-G_03d3g"
+    },
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
     "@types/body-parser": "^1.17.0",
     "@types/express": "^4.16.0",
+    "@types/jest": "^23.3.9",
+    "@types/jest-cli": "^23.6.0",
     "@types/jsonwebtoken": "^8.3.0",
     "@types/mongoose": "^5.3.1",
     "@types/request": "^2.48.1",
     "@types/request-promise": "^4.1.42",
+    "@types/supertest": "^2.0.6",
     "install": "^0.12.2",
+    "jest": "^23.6.0",
+    "jest-cli": "^23.6.0",
     "npm": "^6.4.1",
+    "supertest": "^3.3.0",
+    "ts-jest": "^23.10.4",
+    "ts-node": "^7.0.1",
     "typescript": "^3.1.6"
   },
   "repository": {
