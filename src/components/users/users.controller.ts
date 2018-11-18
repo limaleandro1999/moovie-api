@@ -3,7 +3,6 @@ import * as mongoose from 'mongoose'
 import { User } from './users.model'
 import { errorHandler } from '../common/error.handler'
 
-
 class UserController {
     getAllUsers = async (req: express.Request, res: express.Response) => {
         let users = await User.find().catch(error => {

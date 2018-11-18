@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - "10"
+dist: trusty
+services:
+  - mongodb
+env:
+  - DB_URL=mongodb://127.0.0.1:27017/moovie-api-test-db
+cache:
+  directories:
+    - node_modules
+install: 
+  - npm install
+  - npm run build-ts
+script:
+  - npm run test
