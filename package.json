@@ -29,7 +29,8 @@
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.3.9",
     "request": "^2.88.0",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "socks": "^2.2.2"
   },
   "jest": {
     "globals": {
